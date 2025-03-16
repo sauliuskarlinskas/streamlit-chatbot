@@ -29,7 +29,8 @@ git clone https://github.com/your-repository/chatgpt-clone.git
 cd chatgpt-clone
 ```
 ### 2️⃣ Initiate the project:
-```uv init
+```sh
+uv init
 ```
 
 ### 3️⃣ Create and activate a virtual environment:
@@ -45,6 +46,8 @@ uv add openai
 uv add python-dotenv
 uv rich
 uv add streamlit
+uv add pandas
+uv add pandas Pillow PyMuPDF
 ```
 
 ### 5️⃣ Set up environment variables:
