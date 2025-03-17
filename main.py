@@ -49,7 +49,7 @@ with st.container():
             message_color = "color: blue;" if message["role"] == "user" else "color: green;"
 
             # Display messages with the assigned color
-            st.markdown(f'<p style="{message_color}"><strong>{message["role"].capitalize()}:</strong> {message["content"]}</p>', unsafe_allow_html=True)
+            st.markdown(f'<p style="{message_color}"><strong>{role_display}:</strong> {message["content"]}</p>', unsafe_allow_html=True)
 
 # File Upload Section
 uploaded_file = st.file_uploader("Įkelkite failą analizei", type=["txt", "csv", "pdf", "jpg", "jpeg"], accept_multiple_files=False)
@@ -80,11 +80,13 @@ if uploaded_file:
 
 
 # Chat input
-if prompt := st.chat_input("Kas gero ?"):
+if prompt := st.chat_input("Kas gero?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(f"**Aš:** {prompt}")
 
+    with st.chat_message("user"):
+        st.markdown(f"**{role_mapping['user']}**: {prompt}")  
+
+    # Generate assistant response
     with st.chat_message("assistant"):
         stream = client.chat.completions.create(
             model="gpt-4o",
@@ -95,4 +97,6 @@ if prompt := st.chat_input("Kas gero ?"):
             stream=True,
         )
         response = st.write_stream(stream)
+
+    # Append assistant response to history
     st.session_state.messages.append({"role": "assistant", "content": response})
